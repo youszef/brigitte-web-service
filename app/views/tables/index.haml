@@ -1,0 +1,7 @@
+%h1 Join or make a new table
+
+%p
+  = "player: #{ cookies.encrypted[:user_name] }"
+
+= form_with url: tables_create_path do
+  = submit_tag('Create')

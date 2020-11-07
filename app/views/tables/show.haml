@@ -1,0 +1,5 @@
+%h1 Table
+
+%ul#table_players
+  - @table.players.each do |player|
+    %li= player['user_name']
