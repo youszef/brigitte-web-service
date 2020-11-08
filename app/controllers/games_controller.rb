@@ -10,5 +10,6 @@ class GamesController < ApplicationController
 
   # save new game to cache
   def create
+    redirect_to games_show_path
   end
 end

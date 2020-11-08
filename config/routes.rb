@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'tables/:id', to: 'tables#show', as: 'table'
+  get 'tables/:id', to: 'tables#show', as: :table
+  get 'tables/:id/players', to: 'tables#players', as: :table_players
   get 'tables/index'
   post 'tables/create'
 

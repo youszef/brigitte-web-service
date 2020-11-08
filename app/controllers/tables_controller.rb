@@ -3,10 +3,11 @@
 require 'securerandom'
 
 class TablesController < ApplicationController
+  before_action :set_table
+
   def index; end
 
   def show
-    @table = Table.find(params[:id])
     join_player
   end
 
@@ -16,7 +17,19 @@ class TablesController < ApplicationController
     redirect_to table_path(@table)
   end
 
+  def players
+    Rails.logger.debug("TablesController#players action called")
+    @players = @table.players
+    respond_to do |format|
+      format.js { render 'players' }
+    end
+  end
+
   private
+
+  def set_table
+    @table = Table.find_by_id(params[:id])
+  end
 
   def join_player
     return if @table.players.pluck('user_id').include?(cookies.encrypted[:user_id])
@@ -25,8 +38,7 @@ class TablesController < ApplicationController
     @table.save
 
     TableChannel.broadcast_to(
-      "table_#{@table.id}",
-      { players: @table.players }
+      @table, {}
     )
   end
 end

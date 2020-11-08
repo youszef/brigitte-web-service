@@ -3,5 +3,4 @@
 %p
   = "player: #{ cookies.encrypted[:user_name] }"
 
-= form_with url: tables_create_path do
-  = submit_tag('Create')
+= button_to 'Create Table', tables_create_path

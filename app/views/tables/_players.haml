@@ -1,0 +1,5 @@
+- players = local_assigns.fetch(:players, [])
+
+%ul
+  - players.each do |player|
+    %li= player['user_name']
