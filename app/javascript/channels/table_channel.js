@@ -16,10 +16,11 @@ consumer.subscriptions.create({ channel: "TableChannel", id: table_id }, {
   received(data) {
     let csrfToken = document.querySelector('meta[name=csrf-token]').attributes.content.value
     fetch((url + '/players'), {
-        headers: {
-        'Accept': "*/*",
-        "X-CSRF-Token": csrfToken},
-        credentials: "include"
+      headers: {
+        "Accept": "text/javascript",
+        "X-CSRF-Token": csrfToken
+      },
+      credentials: "include"
     })
       .then(handleErrors)
       .then(r => r.text().then(script => eval(script)))
