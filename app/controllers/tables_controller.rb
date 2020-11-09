@@ -3,6 +3,11 @@
 require 'securerandom'
 
 class TablesController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:players]
+  # this should normally not be skipped as this is a call made by fetch.
+  # rails only checks for xhr hence skipping verification for token
+  # see https://github.com/rails/rails/blob/master/actionpack/lib/action_controller/metal/request_forgery_protection.rb#L258
+
   before_action :set_table
 
   def index; end
@@ -18,10 +23,10 @@ class TablesController < ApplicationController
   end
 
   def players
-    Rails.logger.debug("TablesController#players action called")
     @players = @table.players
+
     respond_to do |format|
-      format.js { render 'players' }
+      format.js
     end
   end
 
