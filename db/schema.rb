@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2020_11_06_133129) do
   create_table "brigitte_games", force: :cascade do |t|
     t.uuid "table_id"
     t.jsonb "game"
+    t.boolean "active", default: true, null: false
     t.index ["table_id"], name: "index_brigitte_games_on_table_id"
   end
 

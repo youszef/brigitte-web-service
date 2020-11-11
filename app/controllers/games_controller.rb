@@ -1,15 +1,14 @@
+require 'brigitte'
+
 class GamesController < ApplicationController
-  # play game
-  def show
-  end
-
-  # new brigitte game
-  # make possible to add players
-  def new
-  end
-
-  # save new game to cache
   def create
-    redirect_to games_show_path
+    table = Table.find(params[:table_id])
+
+    @game = Brigitte::Game.new.start_new_game(table.players, player_id_key: 'user_id', player_name_key: 'user_name')
+    table.brigitte_games.create(game: @game.to_h)
+
+    respond_to do |format|
+      format.js { render :show }
+    end
   end
 end

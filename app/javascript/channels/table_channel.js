@@ -1,7 +1,8 @@
 import consumer from "./consumer"
 
-let url = window.location.pathname
-let table_id =  url.substring(url.lastIndexOf('/')+1);
+var url = window.location.pathname;
+var table_id =  url.substring(url.lastIndexOf('/')+1);
+
 consumer.subscriptions.create({ channel: "TableChannel", id: table_id }, {
   connected() {
     console.log("connected");
@@ -13,7 +14,7 @@ consumer.subscriptions.create({ channel: "TableChannel", id: table_id }, {
     // Called when the subscription has been terminated by the server
   },
 
-  received(data) {
+  received(_data) {
     let csrfToken = document.querySelector('meta[name=csrf-token]').attributes.content.value
     fetch((url + '/players'), {
       headers: {

@@ -3,4 +3,7 @@
 #players
   = render 'players', players: @table.players
 
-= button_to 'Start Game', games_create_path
+= button_to 'Start Game', table_games_path(@table), remote: true
+
+#game
+  = render 'games/show', game: @table.active_game.game

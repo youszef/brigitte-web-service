@@ -6,9 +6,11 @@ Rails.application.routes.draw do
   get 'tables/index'
   post 'tables/create'
 
-  get 'games/show'
-  get 'games/new'
-  post 'games/create'
+  resources :tables, only: %i[show index create] do
+    get :players, on: :member
+
+    resources :games, only: %i[create]
+  end
 
   put 'players/update'
 
