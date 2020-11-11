@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   post 'tables/create'
 
   resources :tables, only: %i[show index create] do
-    get :players, on: :member
-
     resources :games, only: %i[create]
   end
 

@@ -13,7 +13,7 @@ class TableChannel < ApplicationCable::Channel
     @table.active_game&.update_attributes(active: false) if @table.players.empty?
 
     broadcast_to(
-      @table, {}
+      @table, players: @table.players
     )
   end
 end

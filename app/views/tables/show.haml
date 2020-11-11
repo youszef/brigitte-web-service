@@ -1,9 +1,10 @@
 %h1 Table
 
-#players
-  = render 'players', players: @table.players
+%ul#players
+  - @table.players.each do |player|
+    %li= player['user_name']
 
 = button_to 'Start Game', table_games_path(@table), remote: true
 
 #game
-  = render 'games/show', game: @table.active_game.game
+  = render 'games/show', game: @table.active_game&.game

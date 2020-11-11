@@ -22,14 +22,6 @@ class TablesController < ApplicationController
     redirect_to table_path(@table)
   end
 
-  def players
-    @players = @table.players
-
-    respond_to do |format|
-      format.js
-    end
-  end
-
   private
 
   def set_table
@@ -42,8 +34,6 @@ class TablesController < ApplicationController
     @table.players << { user_id: cookies.encrypted[:user_id], user_name: cookies.encrypted[:user_name] }
     @table.save
 
-    TableChannel.broadcast_to(
-      @table, {}
-    )
+    TableChannel.broadcast_to(@table, players: @table.players)
   end
 end
