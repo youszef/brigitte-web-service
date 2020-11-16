@@ -5,39 +5,32 @@ var tableId =  url.substring(url.lastIndexOf('/')+1);
 
 consumer.subscriptions.create({ channel: "TableChannel", id: tableId }, {
   connected() {
-    console.log("connected");
+    console.log("cable connected");
     // Called when the subscription is ready for use on the server
   },
 
   disconnected() {
-    console.log("disconnected");
+    console.log("cable disconnected");
     // Called when the subscription has been terminated by the server
   },
 
   received(data) {
-    updatePlayers(data['players'])
-
-    // let csrfToken = document.querySelector('meta[name=csrf-token]').attributes.content.value
-    // fetch((url + '/players'), {
-    //   headers: {
-    //     "Accept": "text/javascript",
-    //     "X-CSRF-Token": csrfToken
-    //   },
-    //   credentials: "include"
-    // }).then(handleErrors)
-    //   .then(r => r.text().then(script => eval(script)))
-    //   .catch(error => console.log(error))
+    console.log("cable data received");
+    updatePlayers(data.players)
+    goToGame(data.game_path)
+    // updateGame(data.game_id)
   }
 });
 
-function handleErrors(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  }
-  return response;
+function updatePlayers(players) {
+  if (!players) return;
+
+  let listItems = players.map(player => `<li>${player.user_name}</li>`);
+  document.getElementById('players').innerHTML = listItems.join('');
 }
 
-function updatePlayers(players) {
-  var listItems = players.map(player => `<li>${player.user_name}</li>`);
-  document.getElementById('players').innerHTML = listItems.join('');
+function goToGame(path) {
+  if (!path) return;
+
+  window.location.assign(path);
 }

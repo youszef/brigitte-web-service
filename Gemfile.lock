@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/youszef/brigitte.git
-  revision: 63dd29f12540c876b044dc6226d2691d2f4c468f
+  revision: 1fef18feafc98e3a952c9d1d272d3ae46dc3f67b
   branch: develop
   specs:
     brigitte (0.1.0)

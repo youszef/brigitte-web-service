@@ -1,0 +1,20 @@
+- game = local_assigns.fetch(:game, nil)
+- if game
+  - players = shifted_players_on_current_player(cookies.encrypted[:user_id], game.active_players)
+  .row.justify-content-center
+    - player = players[2]
+    - if player
+      = render 'games/player/table_cards', orientation: :top, cards: player.visible_cards, player_name: player.name
+  .row.justify-content-center
+    .col.align-self-center
+      - player = players[1]
+      - if player
+        = render 'games/player/table_cards', orientation: :left, cards: player.visible_cards, player_name: player.name
+    .col.align-self-center
+      .row.justify-content-center
+        %image.small.img-fluid{ src: image_path('cards/back.svg') }
+        %image.small.img-fluid{ src: image_path("cards/#{game.pot.any? ? game.pot.last : 'transparent'}.svg") }
+    .col.align-self-center
+      - player = players[3]
+      - if player
+        = render 'games/player/table_cards', orientation: :right, cards: player.visible_cards, player_name: player.name

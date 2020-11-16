@@ -4,7 +4,5 @@
   - @table.players.each do |player|
     %li= player['user_name']
 
-= button_to 'Start Game', table_games_path(@table), remote: true
-
-#game
-  = render 'games/show', game: @table.active_game&.game
+- unless @table.active_game&.game
+  = button_to 'Start Game', table_games_path(@table), id: :start_game_button, remote: true, data: { disable_with: 'starting...' }

@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'tables/:id', to: 'tables#show', as: :table
-  get 'tables/:id/players', to: 'tables#players', as: :table_players
-  get 'tables/index'
-  post 'tables/create'
-
   resources :tables, only: %i[show index create] do
-    resources :games, only: %i[create]
+    resources :games, only: %i[show create] do
+      patch :swap_cards, on: :member
+    end
   end
 
   put 'players/update'

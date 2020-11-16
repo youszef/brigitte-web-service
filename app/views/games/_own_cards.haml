@@ -1,0 +1,11 @@
+- game = local_assigns.fetch(:game, nil)
+- if game
+  - own_player = own_player(cookies.encrypted[:user_id], game.active_players)
+  .row.justify-content-center
+    = render 'games/player/table_cards',
+        orientation: :bottom,
+        cards: own_player.visible_cards,
+        player_name: own_player.name,
+        droppable: !own_player.ready
+  .row.justify-content-center
+    = render 'games/player/hand_cards', cards: own_player.hand

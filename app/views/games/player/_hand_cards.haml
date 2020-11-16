@@ -1,0 +1,3 @@
+- cards = local_assigns.fetch(:cards, [])
+- cards.each do |card|
+  %image.small.img-fluid{ id: card.id, src: image_path("cards/#{card}.svg"), draggable: 'true', 'data-action': 'dragstart->games#registerElement' }
