@@ -1,3 +1,2 @@
 document.getElementById('cards-on-table').innerHTML = "#{ j(render partial: 'cards_on_table', locals: { game: @game }) }";
--unless local_assigns[:render_only_cards_on_table]
-  document.getElementById('own-cards').innerHTML = "#{ j(render partial: 'own_cards', locals: { game: @game }) }";
+document.getElementById('own-cards').innerHTML = "#{ j(render partial: 'own_cards', locals: { game: @game }) }";

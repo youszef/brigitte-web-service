@@ -32,5 +32,5 @@ function updatePlayers(players) {
 function goToGame(path) {
   if (!path) return;
 
-  window.location.assign(path);
+  window.location.href = path;
 }

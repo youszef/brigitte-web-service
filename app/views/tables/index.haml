@@ -1,6 +1,6 @@
 %h1 Join or make a new table
 
-%p
-  = "player: #{ cookies.encrypted[:user_name] }"
+%h4
+  = "player: #{ Current.player.name }"
 
 = button_to 'Create Table', tables_path

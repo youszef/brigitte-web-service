@@ -12,7 +12,7 @@ class TablesController < ApplicationController
   end
 
   def create
-    @table = Table.create(players: [{ user_id: cookies.encrypted[:user_id], user_name: cookies.encrypted[:user_name] }])
+    @table = Table.create(players: [{ user_id: Current.player.id, user_name: Current.player.name }])
 
     redirect_to table_path(@table)
   end

@@ -1,11 +1,21 @@
 - game = local_assigns.fetch(:game, nil)
 - if game
-  - own_player = own_player(cookies.encrypted[:user_id], game.active_players)
+  - own_player = game.active_players.find { |p| p == Current.player }
   .row.justify-content-center
     = render 'games/player/table_cards',
         orientation: :bottom,
-        cards: own_player.visible_cards,
-        player_name: own_player.name,
-        droppable: !own_player.ready
+        player: own_player,
+        game: game
   .row.justify-content-center
-    = render 'games/player/hand_cards', cards: own_player.hand
+    = render 'games/player/hand_cards',
+        player: own_player,
+        game: game
+  .row.justify-content-center
+    - if !own_player.ready?
+      = button_to 'Ready', ready_table_game_path(@brigitte_game.table, @brigitte_game),
+          method: :patch,
+          remote: true,
+          data: { disable_with: 'processing ...' }
+    -elsif own_player == game.current_player
+      %button{ 'data-action': stimulus_actions(click: 'games#throwCards') }
+        Throw

@@ -5,4 +5,8 @@
     %li= player['user_name']
 
 - unless @table.active_game&.game
-  = button_to 'Start Game', table_games_path(@table), id: :start_game_button, remote: true, data: { disable_with: 'starting...' }
+  = button_to 'Start Game', table_games_path(@table),
+    id: :start_game_button,
+    remote: true,
+    form: { 'data-type': :json },
+    data: { disable_with: 'starting...' }

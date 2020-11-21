@@ -6,29 +6,52 @@ class GamesController < ApplicationController
   # rails only checks for xhr hence skipping verification for token
   # see https://github.com/rails/rails/blob/master/actionpack/lib/action_controller/metal/request_forgery_protection.rb#L258
 
-  def show
-    brigitte_game = BrigitteGame.find(params[:id])
-    @game = brigitte_game.game_object
+  before_action :set_game, except: [:create]
+  before_action :set_player, except: %i[show create]
 
+  def show
     respond_to do |format|
       format.html
-      format.js { render :show, render_only_cards_on_table: true }
+      format.js { render :show }
     end
   end
 
   def swap_cards
-    brigitte_game = BrigitteGame.find(params[:id])
-    Rails.logger.debug(params)
-    @game = brigitte_game.game_object
-    player_id = cookies.encrypted[:user_id]
-    player = @game.active_players.find { |p| p.id == player_id }
-    hand_card = player.hand.find { |c| c.id == params[:from_card_id] }
-    visible_table_card = player.visible_cards.find { |c| c.id == params[:to_card_id] }
+    hand_card = @player.hand.find { |c| c.id == params[:from_card_id] }
+    visible_table_card = @player.visible_cards.find { |c| c.id == params[:to_card_id] }
 
-    player.swap(hand_card, visible_table_card)
+    @player.swap(hand_card, visible_table_card)
 
-    brigitte_game.update_attributes(game: @game.to_h)
-    GameChannel.broadcast_to(brigitte_game, table_card_changed: true)
+    save_game
+    GameChannel.broadcast_to(@brigitte_game, {})
+
+    respond_to do |format|
+      format.js { render :show }
+    end
+  end
+
+  def ready
+    return if @player.ready?
+
+    @player.ready!
+    @game.play
+    save_game
+
+    GameChannel.broadcast_to(@brigitte_game, {})
+
+    respond_to do |format|
+      format.js { render :show }
+    end
+  end
+
+  def throw_cards
+    success = @game.throw_card(
+      @player,
+      *@player.hand.select { |c| params[:card_ids].include?(c.id) }
+    )
+    save_game
+
+    GameChannel.broadcast_to(@brigitte_game, {}) if success
 
     respond_to do |format|
       format.js { render :show }
@@ -44,5 +67,21 @@ class GamesController < ApplicationController
     TableChannel.broadcast_to(table, game_path: table_game_path(table, brigitte_game))
 
     redirect_to table_game_path table, brigitte_game
+  end
+
+  private
+
+  def set_game
+    @brigitte_game = BrigitteGame.find(params[:id])
+    @game = @brigitte_game.game_object
+  end
+
+  def set_player
+    @player = @game.active_players.find { |p| p == Current.player }
+  end
+
+    # TODO save only particular particular key value pair. Try to use jsonb_set
+  def save_game
+    @brigitte_game.update_attributes(game: @game.to_h)
   end
 end

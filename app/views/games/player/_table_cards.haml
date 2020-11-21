@@ -1,14 +1,17 @@
-- player_name = local_assigns.fetch(:player_name, nil)
 - orientation = local_assigns.fetch(:orientation, nil)
-- cards = local_assigns.fetch(:cards, [])
-- droppable = local_assigns.fetch(:droppable, false)
+- game = local_assigns.fetch(:game, nil)
+- player = local_assigns.fetch(:player, nil)
 
 - position = { left: '90deg', top: '0deg', right: '-90deg', bottom: '0deg' }
 - degree = position[orientation]
 
-.rotate{style: "--rotation: #{degree}"}
-  .row.justify-content-center.table-cards.d-flex
-    - cards.each do |card|
-      %image.small.img-fluid{ id: card.id, src: image_path("cards/#{card}.svg"), 'data-action': 'dragover->games#allowDrop drop->games#swapTableCard'}
-  .row.justify-content-center
-    = player_name
+-if player
+  .rotate{style: "--rotation: #{degree}"}
+    .row.justify-content-center.table-cards.d-flex
+      - player.visible_cards.each do |card|
+        %image.small.img-fluid{ id: card.id,
+          src: image_path("cards/#{card}.svg"),
+          'data-action': ('dragover->games#allowDrop drop->games#swapTableCard' unless player.ready?) }
+    .row.justify-content-center
+      %h4{ class: ( 'turn-mark' if game.current_player == player) }
+        = player.name

@@ -3,7 +3,11 @@
 Rails.application.routes.draw do
   resources :tables, only: %i[show index create] do
     resources :games, only: %i[show create] do
-      patch :swap_cards, on: :member
+      member do
+        patch :swap_cards
+        patch :ready
+        patch :throw_cards
+      end
     end
   end
 
