@@ -8,10 +8,22 @@
 -if player
   .rotate{style: "--rotation: #{degree}"}
     .row.justify-content-center.table-cards.d-flex
-      - player.visible_cards.each do |card|
-        %image.small.img-fluid{ id: card.id,
-          src: image_path("cards/#{card}.svg"),
-          'data-action': ('dragover->games#allowDrop drop->games#swapTableCard' unless player.ready?) }
+      - if player.visible_cards.any?
+        - player.visible_cards.each do |card|
+          %image.small.img-fluid{ id: card.id,
+            src: image_path("cards/#{card}.svg"),
+            alt: card.to_s,
+            'data-action': (stimulus_actions(dragover: 'games#allowDrop', drop: 'games#swapTableCard') unless player.ready?) }
+      - else
+        - 3.times do |index|
+          - card_exist = !player.hidden_cards[index].nil?
+          %image.small.img-fluid{ src: image_path("cards/#{card_exist ? 'back' : 'transparent'}.svg"),
+            alt: 'face-down',
+            'data-index': index,
+            'data-action': stimulus_actions(click: ('games#takeHiddenCard' if card_exist)) }
     .row.justify-content-center
       %h4{ class: ( 'turn-mark' if game.current_player == player) }
-        = player.name
+        -if game.won_players.include? player
+          = "#{player.name} - Winner ##{game.won_players.index(player)+1}"
+        -else
+          = player.name

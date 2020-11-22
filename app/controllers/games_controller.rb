@@ -45,13 +45,35 @@ class GamesController < ApplicationController
   end
 
   def throw_cards
-    success = @game.throw_card(
+    success = @game.throw_cards(
       @player,
       *@player.hand.select { |c| params[:card_ids].include?(c.id) }
     )
     save_game
 
     GameChannel.broadcast_to(@brigitte_game, {}) if success
+
+    respond_to do |format|
+      format.js { render :show }
+    end
+  end
+
+  def take_cards
+    @game.take_cards_from_pot(@player)
+    save_game
+
+    GameChannel.broadcast_to(@brigitte_game, {})
+
+    respond_to do |format|
+      format.js { render :show }
+    end
+  end
+
+  def take_hidden_card
+    @game.take_hidden_card(@player, params[:hidden_card_index].to_i)
+    save_game
+
+    GameChannel.broadcast_to(@brigitte_game, {})
 
     respond_to do |format|
       format.js { render :show }

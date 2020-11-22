@@ -8,7 +8,7 @@ class GameChannel < ApplicationCable::Channel
   def unsubscribed
     return unless @game&.reload
 
-    # notify other players start count down and redirect back to table and deactivate game if player doesn't join in time
+    # TODO notify other players start count down and redirect back to table and deactivate game if player doesn't join in time
     broadcast_to(
       @game, disconnected_player_id: current_user
     )

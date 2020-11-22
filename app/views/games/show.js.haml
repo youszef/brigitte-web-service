@@ -1,2 +1,3 @@
 document.getElementById('cards-on-table').innerHTML = "#{ j(render partial: 'cards_on_table', locals: { game: @game }) }";
 document.getElementById('own-cards').innerHTML = "#{ j(render partial: 'own_cards', locals: { game: @game }) }";
+document.getElementById('game-over').innerHTML = "#{ j(render partial: 'game_over', locals: { game: @game, table: @brigitte_game.table }) }";

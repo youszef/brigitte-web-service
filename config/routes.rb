@@ -7,6 +7,8 @@ Rails.application.routes.draw do
         patch :swap_cards
         patch :ready
         patch :throw_cards
+        patch :take_cards
+        patch :take_hidden_card
       end
     end
   end

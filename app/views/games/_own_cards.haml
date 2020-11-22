@@ -1,5 +1,5 @@
 - game = local_assigns.fetch(:game, nil)
-- if game
+- if game && !game.game_over
   - own_player = game.active_players.find { |p| p == Current.player }
   .row.justify-content-center
     = render 'games/player/table_cards',
@@ -13,9 +13,10 @@
   .row.justify-content-center
     - if !own_player.ready?
       = button_to 'Ready', ready_table_game_path(@brigitte_game.table, @brigitte_game),
+          class: 'btn btn-primary',
           method: :patch,
           remote: true,
           data: { disable_with: 'processing ...' }
     -elsif own_player == game.current_player
-      %button{ 'data-action': stimulus_actions(click: 'games#throwCards') }
+      %button.btn.btn-primary{ 'data-action': stimulus_actions(click: 'games#throwCards') }
         Throw

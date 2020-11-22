@@ -4,9 +4,10 @@
   - @table.players.each do |player|
     %li= player['user_name']
 
-- unless @table.active_game&.game
+- if !@table.active_game || @table.active_game.game_object&.game_over
   = button_to 'Start Game', table_games_path(@table),
     id: :start_game_button,
+    class: 'btn btn-primary',
     remote: true,
     form: { 'data-type': :json },
     data: { disable_with: 'starting...' }
