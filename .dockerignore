@@ -1,0 +1,33 @@
+/.bundle
+
+/log/*
+/tmp/*
+
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+
+# Ignore uploaded files in development.
+/storage/*
+
+/public/assets
+.byebug_history
+
+/config/master.key
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+.yarn/
+
+# local env vars
+exports
+
+# IDE
+.idea/
+
+# GIT
+.git/*
