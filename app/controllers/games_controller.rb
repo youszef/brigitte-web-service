@@ -59,7 +59,7 @@ class GamesController < ApplicationController
   end
 
   def take_cards
-    @game.take_cards_from_pot(@player)
+    @game.take_cards_from_pile(@player)
     save_game
 
     GameChannel.broadcast_to(@brigitte_game, {})

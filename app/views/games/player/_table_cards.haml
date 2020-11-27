@@ -23,7 +23,7 @@
             'data-action': stimulus_actions(click: ('games#takeHiddenCard' if card_exist)) }
     .row.justify-content-center
       %h4{ class: ( 'turn-mark' if game.current_player == player) }
-        -if game.won_players.include? player
-          = "#{player.name} - Winner ##{game.won_players.index(player)+1}"
+        -if game.winners.include? player
+          = "#{player.name} - Winner ##{game.winners.index(player)+1}"
         -else
           = player.name

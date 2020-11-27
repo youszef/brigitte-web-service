@@ -13,8 +13,8 @@
     .col.align-self-center
       .row.justify-content-center
         %image.small.img-fluid{ src: image_path("cards/#{game.cards.any? ? 'back' : 'transparent'}.svg") }
-        %image.small.img-fluid{ src: image_path("cards/#{game.pot.any? ? game.pot.last : 'transparent'}.svg"),
-              'data-action': stimulus_actions(click: ('games#takeCards' if game.pot.any?)) }
+        %image.small.img-fluid{ src: image_path("cards/#{game.pile.any? ? game.pile.last : 'transparent'}.svg"),
+              'data-action': stimulus_actions(click: ('games#takeCards' if game.pile.any?)) }
     .col.align-self-center
       - player = players[3]
       - if player

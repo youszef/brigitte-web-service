@@ -6,7 +6,8 @@ class TableChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    return unless @table&.reload
+    @table = Table.find_by_id(params[:id])
+    return unless @table
 
     @table.players.delete_if { |player| player['user_id'] == current_user }
     @table.save

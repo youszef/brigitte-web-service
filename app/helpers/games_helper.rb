@@ -5,6 +5,8 @@ module GamesHelper
     shifted_players = players.dup
     shifted_players.index(current_player).times { shifted_players << shifted_players.shift }
 
+    shifted_players.insert(1, nil) if shifted_players.count == 2
+
     shifted_players
   end
 end

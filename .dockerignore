@@ -10,11 +10,12 @@
 # Ignore uploaded files in development.
 /storage/*
 
-/public/assets
-.byebug_history
-
 /config/master.key
 
+docker-compose.yml
+docker.env
+
+/public/assets
 /public/packs
 /public/packs-test
 /node_modules
@@ -22,6 +23,8 @@
 yarn-debug.log*
 .yarn-integrity
 .yarn/
+.byebug_history
+.yarnrc.yml
 
 # local env vars
 exports

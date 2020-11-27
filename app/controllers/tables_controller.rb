@@ -24,7 +24,7 @@ class TablesController < ApplicationController
   end
 
   def join_player
-    return if @table.players.pluck('user_id').include?(cookies.encrypted[:user_id])
+    return if @table.players.pluck('user_id').include?(Current.player.id)
 
     @table.players << { user_id: cookies.encrypted[:user_id], user_name: cookies.encrypted[:user_name] }
     @table.save
