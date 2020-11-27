@@ -1,0 +1,5 @@
+releases:
+  command:
+    - bundle exec rake db:migrate
+run:
+  web: bundle exec puma
