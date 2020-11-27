@@ -43,6 +43,7 @@ yarn-debug.log*
 
 # local env vars
 exports
+docker.env
 
 # IDE
 .idea/

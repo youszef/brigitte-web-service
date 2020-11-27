@@ -1,0 +1,36 @@
+/.bundle
+
+/log/*
+/tmp/*
+
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+
+# Ignore uploaded files in development.
+/storage/*
+
+/config/master.key
+
+docker-compose.yml
+docker.env
+
+/public/assets
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+.yarn/
+.byebug_history
+.yarnrc.yml
+
+# local env vars
+exports
+
+# IDE
+.idea/
+
+# GIT
+.git/*

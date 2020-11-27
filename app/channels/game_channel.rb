@@ -6,7 +6,8 @@ class GameChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    return unless @game&.reload
+    @game = BrigitteGame.find_by_id(params[:id])
+    return unless @game
 
     # TODO notify other players start count down and redirect back to table and deactivate game if player doesn't join in time
     broadcast_to(
