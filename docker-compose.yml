@@ -1,20 +1,20 @@
 version: '3.7'
 
 services:
-  app:
-    build:
-      context: .
-      args:
-        RAILS_ENV: "production"
-        SECRET_KEY_BASE: "e6354ae41fd34a86f2fb377a08b1b9f490999fcc9acfd979004f64860a79de0ae967501dbb8564215f0452b07792270f97d1e25538be02671f05eb985433501b"
-    ports:
-      - 3000:3000
-    env_file:
-      - docker.env
-    environment:
-      POSTGRES_HOST: postgres
-    links:
-      - postgres
+#  app:
+#    build:
+#      context: .
+#      args:
+#        RAILS_ENV: "production"
+#        SECRET_KEY_BASE: "e6354ae41fd34a86f2fb377a08b1b9f490999fcc9acfd979004f64860a79de0ae967501dbb8564215f0452b07792270f97d1e25538be02671f05eb985433501b"
+#    ports:
+#      - 3000:3000
+#    env_file:
+#      - docker.env
+#    environment:
+#      POSTGRES_HOST: postgres
+#    links:
+#      - postgres
   postgres:
     image: postgres
     ports:

@@ -1,8 +1,19 @@
 - player = local_assigns.fetch(:player, nil)
 - game = local_assigns.fetch(:game, nil)
+- own_cards = local_assigns.fetch(:own_cards, false)
+- orientation = local_assigns.fetch(:orientation, nil)
+
 - if player
-  - player.hand.each do |card|
-    %image.small.img-fluid.hand-card{ id: card.id,
-      src: image_path("cards/#{card}.svg"),
+  - player.hand.each_with_index do |card, index|
+    %image.rotate{ id: (card.id if own_cards),
+      class: "#{(own_cards ? 'own-hand-card' : 'hand-card')} #{orientation}",
+      src: image_path("cards/#{own_cards ? card : 'back' }.svg"),
+      style: "--index: #{index}; --total-hand-cards: #{player.hand.count}",
       draggable: !player.ready?.to_s,
       'data-action': stimulus_actions(dragstart: 'games#registerElement', click: ('games#selectCard' if player == game.current_player)) }
+  .row
+    %h4{ class: ( 'turn-marking' if game.current_player == player) }
+      -if game.winners.include? player
+        = "#{player.name} - Winner ##{game.winners.index(player)+1}"
+      -else
+        = player.name

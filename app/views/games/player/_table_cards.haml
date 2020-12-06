@@ -1,29 +1,19 @@
 - orientation = local_assigns.fetch(:orientation, nil)
-- game = local_assigns.fetch(:game, nil)
 - player = local_assigns.fetch(:player, nil)
 
-- position = { left: '90deg', top: '0deg', right: '-90deg', bottom: '0deg' }
-- degree = position[orientation]
-
 -if player
-  .rotate{style: "--rotation: #{degree}"}
-    .row.justify-content-center.table-cards.d-flex
-      - if player.visible_cards.any?
-        - player.visible_cards.each do |card|
-          %image.small.img-fluid{ id: card.id,
-            src: image_path("cards/#{card}.svg"),
-            alt: card.to_s,
-            'data-action': (stimulus_actions(dragover: 'games#allowDrop', drop: 'games#swapTableCard') unless player.ready?) }
-      - else
-        - 3.times do |index|
-          - card_exist = !player.hidden_cards[index].nil?
-          %image.small.img-fluid{ src: image_path("cards/#{card_exist ? 'back' : 'transparent'}.svg"),
-            alt: 'face-down',
-            'data-index': index,
-            'data-action': stimulus_actions(click: ('games#takeHiddenCard' if card_exist)) }
-    .row.justify-content-center
-      %h4{ class: ( 'turn-mark' if game.current_player == player) }
-        -if game.winners.include? player
-          = "#{player.name} - Winner ##{game.winners.index(player)+1}"
-        -else
-          = player.name
+  - if player.visible_cards.any?
+    - player.visible_cards.each_with_index do |card, index|
+      %image{ id: card.id,
+        class: orientation,
+        src: image_path("cards/#{card}.svg"),
+        style: "--index: #{index}",
+        alt: card.to_s,
+        'data-action': (stimulus_actions(dragover: 'games#allowDrop', drop: 'games#swapTableCard') unless player.ready?) }
+  - else
+    - 3.times do |index|
+      - card_exist = !player.hidden_cards[index].nil?
+      %image{ src: image_path("cards/#{card_exist ? 'back' : 'transparent'}.svg"),
+        alt: 'face-down',
+        'data-index': index,
+        'data-action': stimulus_actions(click: ('games#takeHiddenCard' if card_exist)) }

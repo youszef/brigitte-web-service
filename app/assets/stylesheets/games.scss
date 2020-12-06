@@ -2,27 +2,164 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-.rotate {
-  transform: rotate(var(--rotation));
+@import 'variables';
+
+@mixin indent-card($index, $total-cards, $space, $orientation) {
+  --indent: calc(50% - ((((#{$total-cards} - 1) * #{$space}) + #{$card-width}) /2) + (#{$index} * #{$space}) ) ;
+  @if $orientation == horizontal {
+    left: var(--indent);
+  } @else {
+    top: var(--indent);
+  }
+}
+.top-row.player-hand {
+  width: 960px;
+  height: 109px;
+}
+.bottom-row.player-hand {
+  width: 960px;
+  height: 125px;
+}
+.row-center {
+  width: 960px;
+  height: 411px;
+}
+.row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.column {
+  display: inline-block;
+  margin-left: -4px;
+}
+.column.player-hand, .column.player-table-cards{
+  width: 109px;
+  height: 411px;
+}
+.column.center-table {
+  background-color: green;
+  width: 742px;
+  height: 411px;
+}
+.row.player-table-cards {
+  width: 742px;
+  height: 109px;
+}
+.row.center-table {
+  width: 742px;
+  height: 193px;
+}
+.column.player-table-cards {
+  width: 109px;
+  height: 193px;
+}
+.column.playground {
+  width: 542px;
+  height: 193px;
+}
+.row-actions {
+  width: 960px;
 }
 
-.turn-mark {
+.turn-marking {
   background-color: greenyellow;
 }
-img.small {
-  width: 100px;
-  height: 145.2px;
+img {
+  width: $card-width;
+  height: $card-height;
+  margin: 8px 0;
 }
-img.medium {
-  width: 166.66px;
-  height: 242px;
+
+img.vertical {
+  transform: rotate(-90deg);
+  transform-origin: 0 0;
+  margin: 0 8px;
 }
 
 img.hand-card {
-  margin-top: 30px;
-  margin-bottom: 10px;
+  position: absolute;
+  z-index: var(--index);
 }
+
+.player-table-cards img {
+  position: absolute;
+  z-index: var(--index);
+}
+
+img.hand-card.vertical {
+  @include indent-card(var(--index), var(--total-hand-cards), 10px, vertical);
+}
+.player-table-cards img.vertical {
+  @include indent-card(var(--index), 3, $card-width, vertical);
+}
+.player-table-cards img.horizontal {
+  @include indent-card(var(--index), 3, $card-width, horizontal);
+}
+
+img.hand-card.horizontal {
+  @include indent-card(var(--index), var(--total-hand-cards), 10px, horizontal);
+}
+
+img.own-hand-card {
+  @include indent-card(var(--index), var(--total-hand-cards), 15px, horizontal);
+  margin-top: 24px;
+  margin-bottom: 8px;
+  position: absolute;
+  z-index: var(--hand-index);
+  cursor: pointer;
+}
+
 img.hand-card.selected {
-  margin-top: 10px;
-  margin-bottom: 30px;
+  margin-top: 8px;
+  margin-bottom: 24px;
 }
+
+.deck img{
+  position: absolute;
+  right: calc(var(--index)*0.25px);
+  z-index: var(--index);
+}
+
+.pile img{
+  position: absolute;
+  right: calc(var(--index)*0.25px);
+  z-index: calc(var(--index) + 100);
+}
+
+//.play-ground {
+//  height: 200px;
+//  width: 200px;
+//}
+//.expandable-pile {
+//  cursor: pointer;
+//  //position: relative;
+//  //height: 0;
+//  //padding-bottom: 120%;
+//  --offset-multiplier: 4px;
+//  &:hover{
+//    --offset-multiplier: 6px;
+//  }
+//  transition: transform 0.6s ease;
+//  --translate: 0;
+//  transform: translate(var(--translate), var(--translate));
+//  &:hover{
+//    --translate: calc(-1px * (var(--cards) - 1));
+//    transition: transform 0.3s ease;
+//  }
+//}
+//
+//.stackable-card {
+//  position: absolute;
+//  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -4px 8px rgba(255, 255, 255, 0.8);
+//  transition: inherit;
+//  --translate: calc(var(--offset) * var(--offset-multiplier));
+//  transform: translate(var(--translate), var(--translate));
+//
+//  @for $i from 1 through 6 {
+//    &:nth-child(#{$i}) {
+//      --offset: #{-1+$i};
+//      z-index: #{100 - $i};
+//    }
+//  }
+//}

@@ -1,21 +1,48 @@
 - game = local_assigns.fetch(:game, nil)
 - if game && !game.game_over
   - players = shifted_players_on_current_player(Current.player, game.active_players)
-  .row.justify-content-center
+  .row.top-row.player-hand
     - player = players[2]
     - if player
-      = render 'games/player/table_cards', orientation: :top, game: game, player: player
-  .row.justify-content-center
-    .col.align-self-center
+      = render 'games/player/hand_cards', own_cards: false, game: game, player: player, orientation: :horizontal
+  .row.row-center
+    .column.player-hand
       - player = players[1]
       - if player
-        = render 'games/player/table_cards', orientation: :left, game: game, player: player
-    .col.align-self-center
-      .row.justify-content-center
-        %image.small.img-fluid{ src: image_path("cards/#{game.cards.any? ? 'back' : 'transparent'}.svg") }
-        %image.small.img-fluid{ src: image_path("cards/#{game.pile.any? ? game.pile.last : 'transparent'}.svg"),
-              'data-action': stimulus_actions(click: ('games#takeCards' if game.pile.any?)) }
-    .col.align-self-center
+        = render 'games/player/hand_cards', own_cards: false, game: game, player: player, orientation: :vertical
+    .column.center-table
+      .row.player-table-cards
+        - player = players[2]
+        - if player
+          = render 'games/player/table_cards', orientation: :horizontal, player: player
+      .row
+        .column.player-table-cards
+          - player = players[1]
+          - if player
+            = render 'games/player/table_cards', player: player, orientation: :vertical
+        .column.playground
+          .deck
+            - if game.cards.any?
+              - game.cards.count.times do |index|
+                %image.stackable-card{ src: image_path('cards/back.svg'), style: "--index: #{index}" }
+            - else
+              %image{ src: image_path('cards/transparent.svg') }
+          .pile
+            - if game.pile.any?
+              .expandable-pile{ 'data-action': stimulus_actions(click: 'games#takeCards') }
+                - game.pile.each_with_index do |card, index|
+                  %image.stackable-card{ src: image_path("cards/#{card}.svg"), style: "--index: #{index}"  }
+            -else
+              %image{ src: image_path('cards/transparent.svg') }
+        .column.player-table-cards
+          - player = players[3]
+          - if player
+            = render 'games/player/table_cards', orientation: :vertical, player: player
+      .row.player-table-cards
+        - player = players[0]
+        - if player
+          = render 'games/player/table_cards', orientation: :horizontal, player: player
+    .column.player-hand
       - player = players[3]
       - if player
-        = render 'games/player/table_cards', orientation: :right, game: game, player: player
+        = render 'games/player/hand_cards', own_cards: false, game: game, player: player
