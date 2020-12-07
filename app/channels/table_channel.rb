@@ -11,7 +11,7 @@ class TableChannel < ApplicationCable::Channel
 
     @table.players.delete_if { |player| player['user_id'] == current_user }
     @table.save
-    @table.active_game&.update_attributes(active: false) if @table.players.empty?
+    @table.active_game&.update(active: false) if @table.players.empty?
 
     broadcast_to(
       @table, players: @table.players

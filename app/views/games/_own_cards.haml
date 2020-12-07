@@ -1,16 +1,7 @@
 - game = local_assigns.fetch(:game, nil)
 - if game && !game.game_over
   - own_player = game.active_players.find { |p| p == Current.player }
-  .row.justify-content-center
-    = render 'games/player/table_cards',
-        orientation: :bottom,
-        player: own_player,
-        game: game
-  .row.justify-content-center
-    = render 'games/player/hand_cards',
-        player: own_player,
-        game: game
-  .row.justify-content-center
+  .row.row-actions
     - if !own_player.ready?
       = button_to 'Ready', ready_table_game_path(@brigitte_game.table, @brigitte_game),
           class: 'btn btn-primary',
@@ -20,3 +11,11 @@
     -elsif own_player == game.current_player
       %button.btn.btn-primary{ 'data-action': stimulus_actions(click: 'games#throwCards') }
         Throw
+  .row.bottom-row.player-hand
+    = render 'games/player/hand_cards',
+        player: own_player,
+        game: game,
+        own_cards: true,
+        orientation: :horizontal
+  .row.name.horizontal
+    = render 'games/player/name', game: game, player: own_player

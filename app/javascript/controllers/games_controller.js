@@ -31,7 +31,7 @@ export default class extends Controller {
   }
 
   throwCards(_event){
-    let elements = document.getElementsByClassName('hand-card selected');
+    let elements = document.getElementsByClassName('own-hand-card selected');
     let card_ids = Array.prototype.map.call(elements, element => element.id);
     patchGame('throw_cards', { card_ids: card_ids })
   }

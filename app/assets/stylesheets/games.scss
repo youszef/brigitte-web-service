@@ -2,27 +2,190 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-.rotate {
-  transform: rotate(var(--rotation));
+@import 'variables';
+
+@mixin indent-card($index, $total-cards, $space, $orientation) {
+  --indent: calc(50% - ((((#{$total-cards} - 1) * #{$space}) + #{$card-width}) /2) + (#{$index} * #{$space}) ) ;
+  @if $orientation == horizontal {
+    left: var(--indent);
+  } @else {
+    top:  calc(var(--indent) + #{$card-width}); // dirty fix. vertical cards are rotated counter clock with an offset of a card-width
+  }
+}
+.top-row.player-hand {
+  height: 109px;
+}
+.bottom-row.player-hand {
+  height: 125px;
+}
+.row-center {
+  height: 411px;
+}
+.row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.column {
+  display: block;
+  margin-left: -4px;
+}
+.column.player-hand, .column.player-table-cards{
+  width: 109px;
+}
+.column.center-table {
+  background-color: green;
+  width: 632px;
+  height: 411px;
+}
+.row.player-table-cards {
+  width: 632px;
+  height: 109px;
+}
+.player-table-cards.top {
+  transform: rotate(180deg);
+}
+.player-table-cards.right {
+  transform: rotate(180deg);
+}
+.row.center-table {
+  width: 632px;
+  height: 193px;
+}
+.column.player-table-cards {
+  width: 109px;
+  height: 193px;
+}
+.column.playground {
+  width: 432px;
+  height: 193px;
+}
+.column.deck, .column.pile {
+  width: 50%;
+  height: 193px;
+}
+.column.name {
+  width: 55px;
+  display: flex;
+  align-items: center;
 }
 
-.turn-mark {
+.row-actions {
+  height: 30px;
+}
+.turn-marking {
   background-color: greenyellow;
 }
-img.small {
-  width: 100px;
-  height: 145.2px;
+img {
+  width: $card-width;
+  height: $card-height;
+  margin: 8px 0;
+  position: absolute;
 }
-img.medium {
-  width: 166.66px;
-  height: 242px;
+h4{
+  margin: 10px 0;
+}
+.vertical.left h4{
+  align-items: center;
+  transform: rotate(90deg);
+  transform-origin: 50% 50%;
+}
+
+.vertical.right h4{
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+img.vertical {
+  transform: rotate(-90deg);
+  transform-origin: 0 0;
+  margin: 0 8px;
 }
 
 img.hand-card {
-  margin-top: 30px;
-  margin-bottom: 10px;
+  z-index: var(--index);
 }
-img.hand-card.selected {
-  margin-top: 10px;
-  margin-bottom: 30px;
+
+.player-table-cards img {
+  z-index: var(--index);
 }
+
+img.hand-card.vertical {
+  @include indent-card(var(--index), var(--total-hand-cards), 10px, vertical);
+}
+.player-table-cards img.vertical {
+  @include indent-card(var(--index), 3, $card-width, vertical);
+}
+.player-table-cards img.horizontal {
+  @include indent-card(var(--index), 3, $card-width, horizontal);
+}
+
+img.hand-card.horizontal {
+  @include indent-card(var(--index), var(--total-hand-cards), 10px, horizontal);
+}
+
+img.own-hand-card {
+  @include indent-card(var(--index), var(--total-hand-cards), 15px, horizontal);
+  margin-top: 24px;
+  margin-bottom: 8px;
+  z-index: var(--hand-index);
+  cursor: pointer;
+}
+
+img.own-hand-card.selected {
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.deck, .pile{
+  position: relative;
+}
+.deck img, .pile img {
+  top: calc(50% - (#{$card-height}/2))
+}
+
+.deck img{
+  @include indent-card(var(--index), var(--total), 0.25px, horizontal);
+  z-index: var(--index);
+}
+
+.pile img{
+  @include indent-card(var(--index), var(--total), 0.25px, horizontal);
+  z-index: calc(var(--index) + 100);
+}
+
+//.play-ground {
+//  height: 200px;
+//  width: 200px;
+//}
+//.expandable-pile {
+//  cursor: pointer;
+//  //position: relative;
+//  //height: 0;
+//  //padding-bottom: 120%;
+//  --offset-multiplier: 4px;
+//  &:hover{
+//    --offset-multiplier: 6px;
+//  }
+//  transition: transform 0.6s ease;
+//  --translate: 0;
+//  transform: translate(var(--translate), var(--translate));
+//  &:hover{
+//    --translate: calc(-1px * (var(--cards) - 1));
+//    transition: transform 0.3s ease;
+//  }
+//}
+//
+//.stackable-card {
+//  position: absolute;
+//  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -4px 8px rgba(255, 255, 255, 0.8);
+//  transition: inherit;
+//  --translate: calc(var(--offset) * var(--offset-multiplier));
+//  transform: translate(var(--translate), var(--translate));
+//
+//  @for $i from 1 through 6 {
+//    &:nth-child(#{$i}) {
+//      --offset: #{-1+$i};
+//      z-index: #{100 - $i};
+//    }
+//  }
+//}

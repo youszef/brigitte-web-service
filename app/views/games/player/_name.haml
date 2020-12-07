@@ -1,0 +1,8 @@
+- player = local_assigns.fetch(:player, nil)
+- game = local_assigns.fetch(:game, nil)
+- if player
+  %h4{ class: ( 'turn-marking' if game.current_player == player) }
+    -if game.winners.include? player
+      = "#{player.name} - Winner ##{game.winners.index(player)+1}"
+    -else
+      = player.name

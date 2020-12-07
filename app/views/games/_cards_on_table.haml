@@ -1,21 +1,38 @@
 - game = local_assigns.fetch(:game, nil)
 - if game && !game.game_over
   - players = shifted_players_on_current_player(Current.player, game.active_players)
-  .row.justify-content-center
-    - player = players[2]
-    - if player
-      = render 'games/player/table_cards', orientation: :top, game: game, player: player
-  .row.justify-content-center
-    .col.align-self-center
-      - player = players[1]
-      - if player
-        = render 'games/player/table_cards', orientation: :left, game: game, player: player
-    .col.align-self-center
-      .row.justify-content-center
-        %image.small.img-fluid{ src: image_path("cards/#{game.cards.any? ? 'back' : 'transparent'}.svg") }
-        %image.small.img-fluid{ src: image_path("cards/#{game.pile.any? ? game.pile.last : 'transparent'}.svg"),
-              'data-action': stimulus_actions(click: ('games#takeCards' if game.pile.any?)) }
-    .col.align-self-center
-      - player = players[3]
-      - if player
-        = render 'games/player/table_cards', orientation: :right, game: game, player: player
+  .row.name.horizontal
+    = render 'games/player/name', game: game, player: players[2]
+  .row.top-row.player-hand
+    = render 'games/player/hand_cards', own_cards: false, game: game, player: players[2], orientation: :horizontal
+  .row.row-center
+    .column.name.vertical.left
+      = render 'games/player/name', game: game, player: players[1]
+    .column.player-hand
+      = render 'games/player/hand_cards', own_cards: false, game: game, player: players[1], orientation: :vertical
+    .column.center-table
+      .row.player-table-cards.top
+        = render 'games/player/table_cards', orientation: :horizontal, player: players[2]
+      .row
+        .column.player-table-cards.left
+          = render 'games/player/table_cards', player: players[1], orientation: :vertical
+        .column.playground
+          .row
+            .column.deck
+              - if game.cards.any?
+                - game.cards.count.times do |index|
+                  %image.stackable-card{ src: image_path('cards/back.svg'), style: "--index: #{index}; --total: #{game.cards.count}" }
+            .column.pile
+              - if game.pile.any?
+                .expandable-pile{ 'data-action': stimulus_actions(click: 'games#takeCards') }
+                  - game.pile.each_with_index do |card, index|
+                    %image.stackable-card{ src: image_path("cards/#{card}.svg"), style: "--index: #{index}; --total: #{game.pile.count}"  }
+        .column.player-table-cards.right
+          = render 'games/player/table_cards', orientation: :vertical, player: players[3]
+      .row.player-table-cards
+        = render 'games/player/table_cards', orientation: :horizontal, player: players[0]
+    .column.player-hand
+      = render 'games/player/hand_cards', own_cards: false, game: game, player: players[3], orientation: :vertical
+    .column.name.vertical.right
+      = render 'games/player/name', game: game, player: players[3]
+
