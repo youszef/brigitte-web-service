@@ -13,15 +13,12 @@
   }
 }
 .top-row.player-hand {
-  width: 960px;
   height: 109px;
 }
 .bottom-row.player-hand {
-  width: 960px;
   height: 125px;
 }
 .row-center {
-  width: 960px;
   height: 411px;
 }
 .row {
@@ -35,7 +32,6 @@
 }
 .column.player-hand, .column.player-table-cards{
   width: 109px;
-  height: 411px;
 }
 .column.center-table {
   background-color: green;
@@ -45,6 +41,12 @@
 .row.player-table-cards {
   width: 632px;
   height: 109px;
+}
+.player-table-cards.top {
+  transform: rotate(180deg);
+}
+.player-table-cards.right {
+  transform: rotate(180deg);
 }
 .row.center-table {
   width: 632px;
@@ -58,13 +60,18 @@
   width: 432px;
   height: 193px;
 }
+.column.deck, .column.pile {
+  width: 50%;
+  height: 193px;
+}
 .column.name {
   width: 55px;
   display: flex;
   align-items: center;
 }
+
 .row-actions {
-  width: 960px;
+  height: 30px;
 }
 .turn-marking {
   background-color: greenyellow;
@@ -73,6 +80,7 @@ img {
   width: $card-width;
   height: $card-height;
   margin: 8px 0;
+  position: absolute;
 }
 h4{
   margin: 10px 0;
@@ -94,12 +102,10 @@ img.vertical {
 }
 
 img.hand-card {
-  position: absolute;
   z-index: var(--index);
 }
 
 .player-table-cards img {
-  position: absolute;
   z-index: var(--index);
 }
 
@@ -121,25 +127,29 @@ img.own-hand-card {
   @include indent-card(var(--index), var(--total-hand-cards), 15px, horizontal);
   margin-top: 24px;
   margin-bottom: 8px;
-  position: absolute;
   z-index: var(--hand-index);
   cursor: pointer;
 }
 
-img.hand-card.selected {
+img.own-hand-card.selected {
   margin-top: 8px;
   margin-bottom: 24px;
 }
 
+.deck, .pile{
+  position: relative;
+}
+.deck img, .pile img {
+  top: calc(50% - (#{$card-height}/2))
+}
+
 .deck img{
-  position: absolute;
-  right: calc(var(--index)*0.25px);
+  @include indent-card(var(--index), var(--total), 0.25px, horizontal);
   z-index: var(--index);
 }
 
 .pile img{
-  position: absolute;
-  right: calc(var(--index)*0.25px);
+  @include indent-card(var(--index), var(--total), 0.25px, horizontal);
   z-index: calc(var(--index) + 100);
 }
 

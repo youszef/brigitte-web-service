@@ -6,14 +6,16 @@
     - player.visible_cards.each_with_index do |card, index|
       %image{ id: card.id,
         class: orientation,
-        src: image_path("cards/#{card}.svg"),
         style: "--index: #{index}",
+        src: image_path("cards/#{card}.svg"),
         alt: card.to_s,
         'data-action': (stimulus_actions(dragover: 'games#allowDrop', drop: 'games#swapTableCard') unless player.ready?) }
   - else
     - 3.times do |index|
       - card_exist = !player.hidden_cards[index].nil?
       %image{ src: image_path("cards/#{card_exist ? 'back' : 'transparent'}.svg"),
+        class: orientation,
+        style: "--index: #{index}",
         alt: 'face-down',
         'data-index': index,
         'data-action': stimulus_actions(click: ('games#takeHiddenCard' if card_exist)) }

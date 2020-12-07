@@ -4,6 +4,9 @@
 
 @import 'variables';
 
+body{
+  font-family: 'Courier New', monospace;
+}
 .container {
   width: $width;
   margin: auto;

@@ -104,6 +104,6 @@ class GamesController < ApplicationController
 
     # TODO save only particular particular key value pair. Try to use jsonb_set
   def save_game
-    @brigitte_game.update_attributes(game: @game.to_h)
+    @brigitte_game.update(game: @game.to_h)
   end
 end

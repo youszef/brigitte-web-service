@@ -11,26 +11,23 @@
     .column.player-hand
       = render 'games/player/hand_cards', own_cards: false, game: game, player: players[1], orientation: :vertical
     .column.center-table
-      .row.player-table-cards
+      .row.player-table-cards.top
         = render 'games/player/table_cards', orientation: :horizontal, player: players[2]
       .row
-        .column.player-table-cards
+        .column.player-table-cards.left
           = render 'games/player/table_cards', player: players[1], orientation: :vertical
         .column.playground
-          .deck
-            - if game.cards.any?
-              - game.cards.count.times do |index|
-                %image.stackable-card{ src: image_path('cards/back.svg'), style: "--index: #{index}" }
-            - else
-              %image{ src: image_path('cards/transparent.svg') }
-          .pile
-            - if game.pile.any?
-              .expandable-pile{ 'data-action': stimulus_actions(click: 'games#takeCards') }
-                - game.pile.each_with_index do |card, index|
-                  %image.stackable-card{ src: image_path("cards/#{card}.svg"), style: "--index: #{index}"  }
-            -else
-              %image{ src: image_path('cards/transparent.svg') }
-        .column.player-table-cards
+          .row
+            .column.deck
+              - if game.cards.any?
+                - game.cards.count.times do |index|
+                  %image.stackable-card{ src: image_path('cards/back.svg'), style: "--index: #{index}; --total: #{game.cards.count}" }
+            .column.pile
+              - if game.pile.any?
+                .expandable-pile{ 'data-action': stimulus_actions(click: 'games#takeCards') }
+                  - game.pile.each_with_index do |card, index|
+                    %image.stackable-card{ src: image_path("cards/#{card}.svg"), style: "--index: #{index}; --total: #{game.pile.count}"  }
+        .column.player-table-cards.right
           = render 'games/player/table_cards', orientation: :vertical, player: players[3]
       .row.player-table-cards
         = render 'games/player/table_cards', orientation: :horizontal, player: players[0]
