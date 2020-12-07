@@ -17,3 +17,5 @@
         game: game,
         own_cards: true,
         orientation: :horizontal
+  .row.name.horizontal
+    = render 'games/player/name', game: game, player: own_player

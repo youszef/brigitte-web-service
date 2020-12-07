@@ -11,9 +11,3 @@
       style: "--index: #{index}; --total-hand-cards: #{player.hand.count}",
       draggable: !player.ready?.to_s,
       'data-action': stimulus_actions(dragstart: 'games#registerElement', click: ('games#selectCard' if player == game.current_player)) }
-  .row
-    %h4{ class: ( 'turn-marking' if game.current_player == player) }
-      -if game.winners.include? player
-        = "#{player.name} - Winner ##{game.winners.index(player)+1}"
-      -else
-        = player.name
