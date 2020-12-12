@@ -8,7 +8,7 @@ Rails.application.routes.draw do
         patch :ready
         patch :throw_cards
         patch :take_cards
-        patch :take_hidden_card
+        patch :take_blind_card
       end
     end
   end

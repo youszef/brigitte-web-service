@@ -4,12 +4,15 @@
 
 @import 'variables';
 
-@mixin indent-card($index, $total-cards, $space, $orientation) {
-  --indent: calc(50% - ((((#{$total-cards} - 1) * #{$space}) + #{$card-width}) /2) + (#{$index} * #{$space}) ) ;
+@mixin indent-card($index, $total-cards, $space, $orientation, $deep-indent-cards-count: 0, $post-space: 0px) {
+  $indent: calc(50% - ((((#{$total-cards} - 1) * #{$space}) + #{$card-width}) /2) + (#{$index} * #{$space}) ) ;
+  @if $deep-indent-cards-count != 0 and $post-space != 0px {
+    $indent: calc(#{$indent} + (#{$post-space} * (#{$deep-indent-cards-count} - (#{$total-cards} - #{$index}))));
+  }
   @if $orientation == horizontal {
-    left: var(--indent);
+    left: $indent;
   } @else {
-    top:  calc(var(--indent) + #{$card-width}); // dirty fix. vertical cards are rotated counter clock with an offset of a card-width
+    top:  calc(#{$indent} + #{$card-width}); // usage of $card-width is a dirty fix. vertical cards are rotated counter clock with an offset of a card-width
   }
 }
 .top-row.player-hand {
@@ -134,6 +137,7 @@ img.own-hand-card {
 img.own-hand-card.selected {
   margin-top: 8px;
   margin-bottom: 24px;
+  border: 2px solid blue;
 }
 
 .deck, .pile{
@@ -150,6 +154,11 @@ img.own-hand-card.selected {
 
 .pile img{
   @include indent-card(var(--index), var(--total), 0.25px, horizontal);
+  z-index: calc(var(--index) + 100);
+}
+
+.pile img.deep-indent{
+  @include indent-card(var(--index), var(--total), 0.25px, horizontal, var(--deep-indent-cards-count), 15px);
   z-index: calc(var(--index) + 100);
 }
 

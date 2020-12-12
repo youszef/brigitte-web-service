@@ -3,13 +3,10 @@
   - own_player = game.active_players.find { |p| p == Current.player }
   .row.row-actions
     - if !own_player.ready?
-      = button_to 'Ready', ready_table_game_path(@brigitte_game.table, @brigitte_game),
-          class: 'btn btn-primary',
-          method: :patch,
-          remote: true,
-          data: { disable_with: 'processing ...' }
+      %button{ 'data-action': stimulus_actions(click: 'games#ready') }
+        Ready
     -elsif own_player == game.current_player
-      %button.btn.btn-primary{ 'data-action': stimulus_actions(click: 'games#throwCards') }
+      %button{ 'data-action': stimulus_actions(click: 'games#throwCards') }
         Throw
   .row.bottom-row.player-hand
     = render 'games/player/hand_cards',
