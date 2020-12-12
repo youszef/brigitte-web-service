@@ -98,6 +98,7 @@ h4{
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
 }
+
 img.vertical {
   transform: rotate(-90deg);
   transform-origin: 0 0;
@@ -162,40 +163,3 @@ img.own-hand-card.selected {
   @include indent-card(var(--index), var(--total), 0.25px, horizontal, var(--deep-indent-cards-count), 15px);
   z-index: calc(var(--index) + 100);
 }
-
-//.play-ground {
-//  height: 200px;
-//  width: 200px;
-//}
-//.expandable-pile {
-//  cursor: pointer;
-//  //position: relative;
-//  //height: 0;
-//  //padding-bottom: 120%;
-//  --offset-multiplier: 4px;
-//  &:hover{
-//    --offset-multiplier: 6px;
-//  }
-//  transition: transform 0.6s ease;
-//  --translate: 0;
-//  transform: translate(var(--translate), var(--translate));
-//  &:hover{
-//    --translate: calc(-1px * (var(--cards) - 1));
-//    transition: transform 0.3s ease;
-//  }
-//}
-//
-//.stackable-card {
-//  position: absolute;
-//  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -4px 8px rgba(255, 255, 255, 0.8);
-//  transition: inherit;
-//  --translate: calc(var(--offset) * var(--offset-multiplier));
-//  transform: translate(var(--translate), var(--translate));
-//
-//  @for $i from 1 through 6 {
-//    &:nth-child(#{$i}) {
-//      --offset: #{-1+$i};
-//      z-index: #{100 - $i};
-//    }
-//  }
-//}
