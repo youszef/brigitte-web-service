@@ -1,5 +1,5 @@
 {
-  "name": "table_games",
+  "name": "brigitte",
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0",

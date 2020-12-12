@@ -9,4 +9,15 @@ module GamesHelper
 
     shifted_players
   end
+
+  def last_cards_with_same_value(cards)
+    same_cards = []
+    cards.reverse_each do |card|
+      break if same_cards.last && (same_cards.last.weight != card.weight)
+
+      same_cards << card
+    end
+
+    same_cards.reverse!
+  end
 end

@@ -9,12 +9,12 @@ default: &default
 
 development:
   <<: *default
-  database: table_games_development
+  database: brigitte_development
 
 test:
   <<: *default
-  database: table_games_test
+  database: brigitte_test
 
 production:
   <<: *default
-  database: table_games_prod
+  database: brigitte_prod

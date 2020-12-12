@@ -69,8 +69,8 @@ class GamesController < ApplicationController
     end
   end
 
-  def take_hidden_card
-    @game.take_hidden_card(@player, params[:hidden_card_index].to_i)
+  def take_blind_card
+    @game.take_blind_card(@player, params[:blind_card_index].to_i)
     save_game
 
     GameChannel.broadcast_to(@brigitte_game, {})

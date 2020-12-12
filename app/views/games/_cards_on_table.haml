@@ -24,9 +24,12 @@
                   %image.stackable-card{ src: image_path('cards/back.svg'), style: "--index: #{index}; --total: #{game.cards.count}" }
             .column.pile
               - if game.pile.any?
-                .expandable-pile{ 'data-action': stimulus_actions(click: 'games#takeCards') }
-                  - game.pile.each_with_index do |card, index|
-                    %image.stackable-card{ src: image_path("cards/#{card}.svg"), style: "--index: #{index}; --total: #{game.pile.count}"  }
+                - last_same_cards = last_cards_with_same_value(game.pile)
+                - game.pile.each_with_index do |card, index|
+                  %image.stackable-card{ src: image_path("cards/#{card}.svg"),
+                  'data-action': stimulus_actions(click: 'games#takeCards'),
+                  class: ('deep-indent' if last_same_cards.include?(card)),
+                  style: "--index: #{index}; --total: #{game.pile.count}; --deep-indent-cards-count: #{last_same_cards.count}" }
         .column.player-table-cards.right
           = render 'games/player/table_cards', orientation: :vertical, player: players[3]
       .row.player-table-cards

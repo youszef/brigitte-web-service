@@ -26,8 +26,12 @@ export default class extends Controller {
     patchGame('take_cards')
   }
 
-  takeHiddenCard(event){
-    patchGame('take_hidden_card', { hidden_card_index: event.target.dataset.index })
+  takeBlindCard(event){
+    patchGame('take_blind_card', { blind_card_index: event.target.dataset.index })
+  }
+
+  ready(_event){
+    patchGame('ready')
   }
 
   throwCards(_event){
