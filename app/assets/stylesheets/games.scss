@@ -155,6 +155,7 @@ img.own-hand-card.selected {
 .pile img{
   @include indent-card(var(--index), var(--total), 0.25px, horizontal);
   z-index: calc(var(--index) + 100);
+  cursor: pointer;
 }
 
 .pile img.deep-indent{
