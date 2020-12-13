@@ -26,7 +26,7 @@ class GamesController < ApplicationController
     GameChannel.broadcast_to(@brigitte_game, {})
 
     respond_to do |format|
-      format.js { render :show }
+      format.js { render :show, locals: { refresh_all: true } }
     end
   end
 
@@ -40,7 +40,7 @@ class GamesController < ApplicationController
     GameChannel.broadcast_to(@brigitte_game, {})
 
     respond_to do |format|
-      format.js { render :show }
+      format.js { render :show, locals: { refresh_all: true } }
     end
   end
 
@@ -60,7 +60,7 @@ class GamesController < ApplicationController
     end
 
     respond_to do |format|
-      format.js { render :show }
+      format.js { render :show, locals: { refresh_all: true } }
     end
   end
 
@@ -71,7 +71,7 @@ class GamesController < ApplicationController
     GameChannel.broadcast_to(@brigitte_game, {})
 
     respond_to do |format|
-      format.js { render :show }
+      format.js { render :show, locals: { refresh_all: true } }
     end
   end
 
@@ -82,7 +82,7 @@ class GamesController < ApplicationController
     GameChannel.broadcast_to(@brigitte_game, {})
 
     respond_to do |format|
-      format.js { render :show }
+      format.js { render :show, locals: { refresh_all: true } }
     end
   end
 
@@ -108,7 +108,7 @@ class GamesController < ApplicationController
     @player = @game.active_players.find { |p| p == Current.player }
   end
 
-    # TODO save only particular particular key value pair. Try to use jsonb_set
+  # TODO save only particular particular key value pair. Try to use jsonb_set
   def save_game
     @brigitte_game.update(game: @game.to_h)
   end

@@ -67,10 +67,27 @@
   width: 50%;
   height: 193px;
 }
-.column.name {
-  width: 55px;
-  display: flex;
-  align-items: center;
+
+.name span{
+  margin: 10px 0;
+}
+
+.name.vertical{
+  width: 38px;
+  display : flex;
+  align-items : center;
+  justify-content: center;
+}
+
+.name.vertical.left span{
+  margin: 0 10px;
+  writing-mode: vertical-lr;
+}
+
+.name.vertical.right span{
+  margin: 0 10px;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
 }
 
 .row-actions {
@@ -84,19 +101,6 @@ img {
   height: $card-height;
   margin: 8px 0;
   position: absolute;
-}
-h4{
-  margin: 10px 0;
-}
-.vertical.left h4{
-  align-items: center;
-  transform: rotate(90deg);
-  transform-origin: 50% 50%;
-}
-
-.vertical.right h4{
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
 }
 
 img.vertical {
@@ -149,17 +153,17 @@ img.own-hand-card.selected {
 }
 
 .deck img{
-  @include indent-card(var(--index), var(--total), 0.25px, horizontal);
+  @include indent-card(var(--index), var(--total), 0.5px, horizontal);
   z-index: var(--index);
 }
 
 .pile img{
-  @include indent-card(var(--index), var(--total), 0.25px, horizontal);
+  @include indent-card(var(--index), var(--total), 0.5px, horizontal);
   z-index: calc(var(--index) + 100);
   cursor: pointer;
 }
 
 .pile img.deep-indent{
-  @include indent-card(var(--index), var(--total), 0.25px, horizontal, var(--deep-indent-cards-count), 15px);
+  @include indent-card(var(--index), var(--total), 0.5px, horizontal, var(--deep-indent-cards-count), 15px);
   z-index: calc(var(--index) + 100);
 }

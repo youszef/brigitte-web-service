@@ -10,4 +10,4 @@
       src: image_path("cards/#{own_cards ? card : 'back' }.svg"),
       style: "--index: #{index}; --total-hand-cards: #{player.hand.count}",
       draggable: !player.ready?.to_s,
-      'data-action': stimulus_actions(dragstart: 'games#registerElement', click: ('games#selectCard' if player == game.current_player)) }
+      'data-action': stimulus_actions(dragstart: 'games#registerElement', click: ('games#selectCard')) }
