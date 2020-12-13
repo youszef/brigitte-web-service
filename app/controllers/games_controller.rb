@@ -45,13 +45,19 @@ class GamesController < ApplicationController
   end
 
   def throw_cards
+    thrown_cards = @player.hand.select { |c| params[:card_ids].include?(c.id) }
     success = @game.throw_cards(
       @player,
-      *@player.hand.select { |c| params[:card_ids].include?(c.id) }
+      *thrown_cards
     )
     save_game
 
-    GameChannel.broadcast_to(@brigitte_game, {}) if success
+    if success
+      GameChannel.broadcast_to(
+        @brigitte_game,
+        { thrown_card: { image_path: ActionController::Base.helpers.image_path("cards/#{thrown_cards.last}.svg") } }
+      )
+    end
 
     respond_to do |format|
       format.js { render :show }

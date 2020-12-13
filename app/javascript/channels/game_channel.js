@@ -12,12 +12,17 @@ consumer.subscriptions.create({ channel: "GameChannel", id: gameId }, {
     // Called when the subscription has been terminated by the server
   },
 
-  received() {
-    updateTable()
+  received(data) {
+    updateTable(data)
   }
 });
 
-function updateTable() {
+async function updateTable(data) {
+  if (data.thrown_card) {
+    updatePile(data.thrown_card);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+
   let csrfToken = document.querySelector('meta[name=csrf-token]').attributes.content.value
   fetch(url, {
     headers: {
@@ -28,6 +33,16 @@ function updateTable() {
   }).then(handleErrors)
     .then(r => r.text().then(script => eval(script)))
     .catch(error => console.log(error))
+}
+function updatePile(thrown_card) {
+  document.querySelectorAll('.pile .deep-indent').forEach(img => img.classList.remove('deep-indent'));
+  let pile = document.getElementById('pile');
+  let total = pile.childElementCount;
+  let img = document.createElement("img")
+
+  img.src = thrown_card.image_path;
+  img.style = `--index: ${total - 1}; --total: ${total}`;
+  pile.appendChild(img)
 }
 
 function handleErrors(response) {

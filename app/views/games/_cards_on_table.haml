@@ -21,12 +21,12 @@
             .column.deck
               - if game.cards.any?
                 - game.cards.count.times do |index|
-                  %image.stackable-card{ src: image_path('cards/back.svg'), style: "--index: #{index}; --total: #{game.cards.count}" }
-            .column.pile
+                  %image{ src: image_path('cards/back.svg'), style: "--index: #{index}; --total: #{game.cards.count}" }
+            #pile.column.pile
               - if game.pile.any?
                 - last_same_cards = last_cards_with_same_value(game.pile)
                 - game.pile.each_with_index do |card, index|
-                  %image.stackable-card{ src: image_path("cards/#{card}.svg"),
+                  %image{ src: image_path("cards/#{card}.svg"),
                   'data-action': stimulus_actions(click: 'games#takeCards'),
                   class: ('deep-indent' if last_same_cards.include?(card)),
                   style: "--index: #{index}; --total: #{game.pile.count}; --deep-indent-cards-count: #{last_same_cards.count}" }
