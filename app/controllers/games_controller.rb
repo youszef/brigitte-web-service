@@ -21,8 +21,14 @@ class GamesController < ApplicationController
     visible_table_card = @player.visible_cards.find { |c| c.id == params[:to_card_id] }
 
     @player.swap(hand_card, visible_table_card)
+    active_player_index = @game.active_players.index(Current.player)
 
-    save_game
+    BrigitteGame.transaction do
+      BrigitteGame.lock('FOR UPDATE')
+                  .where(id: @brigitte_game.id)
+                  .update_all("game = jsonb_set(game, '{active_players, #{active_player_index}}', '#{@player.to_h.to_json}'::jsonb, false)")
+    end
+
     GameChannel.broadcast_to(@brigitte_game, {})
 
     respond_to do |format|
@@ -88,8 +94,9 @@ class GamesController < ApplicationController
 
   def create
     table = Table.find(params[:table_id])
+    Current.player.id == table.players.first
 
-    @game = Brigitte::Game.new.start_new_game(table.players, player_id_key: 'user_id', player_name_key: 'user_name')
+    @game = Brigitte::Game.new.start_new_game(table.players, player_id_key: 'id', player_name_key: 'name')
     brigitte_game = table.brigitte_games.create(game: @game.to_h)
 
     TableChannel.broadcast_to(table, game_path: table_game_path(table, brigitte_game))
@@ -108,7 +115,6 @@ class GamesController < ApplicationController
     @player = @game.active_players.find { |p| p == Current.player }
   end
 
-  # TODO save only particular particular key value pair. Try to use jsonb_set
   def save_game
     @brigitte_game.update(game: @game.to_h)
   end

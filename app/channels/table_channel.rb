@@ -9,12 +9,11 @@ class TableChannel < ApplicationCable::Channel
     @table = Table.find_by_id(params[:id])
     return unless @table
 
-    @table.players.delete_if { |player| player['user_id'] == current_user }
+    @table.players.delete_if { |player| player['id'] == current_user }
     @table.save
-    @table.active_game&.update(active: false) if @table.players.empty?
 
     broadcast_to(
-      @table, players: @table.players
+      @table, { gamemaster: @table.players.first, players: @table.players }
     )
   end
 end

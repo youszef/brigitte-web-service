@@ -3,7 +3,7 @@
 require 'securerandom'
 
 class TablesController < ApplicationController
-  before_action :set_table
+  before_action :set_table, only: [:show]
 
   def index; end
 
@@ -12,9 +12,7 @@ class TablesController < ApplicationController
   end
 
   def create
-    @table = Table.create(players: [{ user_id: Current.player.id, user_name: Current.player.name }])
-
-    redirect_to table_path(@table)
+    redirect_to table_path(Table.create)
   end
 
   private
@@ -24,11 +22,11 @@ class TablesController < ApplicationController
   end
 
   def join_player
-    return if @table.players.pluck('user_id').include?(Current.player.id)
+    return if @table.players&.pluck('id')&.include?(Current.player.id)
 
-    @table.players << { user_id: cookies.encrypted[:user_id], user_name: cookies.encrypted[:user_name] }
+    @table.players << Current.player.to_h
     @table.save
 
-    TableChannel.broadcast_to(@table, players: @table.players)
+    TableChannel.broadcast_to(@table, { gamemaster: @table.players.first, players: @table.players })
   end
 end

@@ -16,17 +16,19 @@ consumer.subscriptions.create({ channel: "TableChannel", id: tableId }, {
 
   received(data) {
     console.log("cable data received");
-    updatePlayers(data.players)
+    updatePlayers(data.players, data.gamemaster)
     goToGame(data.game_path)
-    // updateGame(data.game_id)
   }
 });
 
-function updatePlayers(players) {
+function updatePlayers(players, gamemaster) {
   if (!players) return;
 
-  let listItems = players.map(player => `<li>${player.user_name}</li>`);
+  let listItems = players.map(player => `<li>${player.name} ${player.id == gamemaster.id ? 'Gamemaster' : ''}</li>`);
   document.getElementById('players').innerHTML = listItems.join('');
+
+  let btn = document.getElementById('start_game_button')
+  if(btn.dataset.player === gamemaster.id) btn.hidden = false;
 }
 
 function goToGame(path) {

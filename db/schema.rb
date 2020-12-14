@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2020_11_06_133129) do
   end
 
   create_table "tables", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.jsonb "players"
+    t.jsonb "players", default: []
   end
 
 end

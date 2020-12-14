@@ -1,13 +1,13 @@
 %h1 Table
 
 %ul#players
-  - @table.players.each do |player|
-    %li= player['user_name']
+  - @table.players.each_with_index do |player, index|
+    %li= "#{player['name']} #{'(Gamemaster)' if index.zero?}"
 
-- if !@table.active_game || @table.active_game.game_object&.game_over
-  = button_to 'Start Game', table_games_path(@table),
-    id: :start_game_button,
-    class: 'btn btn-primary',
-    remote: true,
-    form: { 'data-type': :json },
-    data: { disable_with: 'starting...' }
+= button_to 'Start Game', table_games_path(@table),
+  id: :start_game_button,
+  class: 'btn btn-primary',
+  remote: true,
+  form: { 'data-type': :json },
+  data: { player: Current.player.id, disable_with: 'starting...' },
+  hidden: @table.players&.first['id'] != Current.player.id
