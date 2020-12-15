@@ -4,7 +4,7 @@
   - @table.players.each_with_index do |player, index|
     %li= "#{player['name']} #{'(Gamemaster)' if index.zero?}"
 
-= button_to 'Start Game', table_games_path(@table),
+= button_to 'Start Game', table_rounds_path(@table),
   id: :start_game_button,
   class: 'btn btn-primary',
   remote: true,

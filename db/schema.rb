@@ -16,11 +16,10 @@ ActiveRecord::Schema.define(version: 2020_11_06_133129) do
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "brigitte_games", force: :cascade do |t|
+  create_table "rounds", force: :cascade do |t|
     t.uuid "table_id"
     t.jsonb "game"
-    t.boolean "active", default: true, null: false
-    t.index ["table_id"], name: "index_brigitte_games_on_table_id"
+    t.index ["table_id"], name: "index_rounds_on_table_id"
   end
 
   create_table "tables", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

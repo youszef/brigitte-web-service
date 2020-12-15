@@ -2,20 +2,20 @@
 - if game && !game.game_over
   - players = shifted_players_on_current_player(Current.player, game.active_players)
   .row.top-row.player-hand
-    = render 'games/player/hand_cards', own_cards: false, game: game, player: players[2], orientation: :horizontal
+    = render 'rounds/player/hand_cards', own_cards: false, game: game, player: players[2], orientation: :horizontal
   .row.name.horizontal
-    = render 'games/player/name', game: game, player: players[2]
+    = render 'rounds/player/name', game: game, player: players[2]
   .row.row-center
     .column.player-hand
-      = render 'games/player/hand_cards', own_cards: false, game: game, player: players[1], orientation: :vertical
+      = render 'rounds/player/hand_cards', own_cards: false, game: game, player: players[1], orientation: :vertical
     .column.name.vertical.left
-      = render 'games/player/name', game: game, player: players[1]
+      = render 'rounds/player/name', game: game, player: players[1]
     .column.center-table
       .row.player-table-cards.top
-        = render 'games/player/table_cards', orientation: :horizontal, player: players[2]
+        = render 'rounds/player/table_cards', orientation: :horizontal, player: players[2]
       .row
         .column.player-table-cards.left
-          = render 'games/player/table_cards', player: players[1], orientation: :vertical
+          = render 'rounds/player/table_cards', player: players[1], orientation: :vertical
         .column.playground
           .row
             .column.deck
@@ -31,15 +31,15 @@
                   class: ('deep-indent' if last_same_cards.include?(card)),
                   style: "--index: #{index}; --total: #{game.pile.count}; --deep-indent-cards-count: #{last_same_cards.count}" }
         .column.player-table-cards.right
-          = render 'games/player/table_cards', orientation: :vertical, player: players[3]
+          = render 'rounds/player/table_cards', orientation: :vertical, player: players[3]
       .row.player-table-cards
-        = render 'games/player/table_cards', orientation: :horizontal, player: players[0]
+        = render 'rounds/player/table_cards', orientation: :horizontal, player: players[0]
     .column.name.vertical.right
-      = render 'games/player/name', game: game, player: players[3]
+      = render 'rounds/player/name', game: game, player: players[3]
     .column.player-hand
-      = render 'games/player/hand_cards', own_cards: false, game: game, player: players[3], orientation: :vertical
+      = render 'rounds/player/hand_cards', own_cards: false, game: game, player: players[3], orientation: :vertical
   .row.name.horizontal
-    = render 'games/player/name', game: game, player: players[0]
+    = render 'rounds/player/name', game: game, player: players[0]
   .row.row-actions
     - if !players[0].ready?
       %button{ 'data-action': stimulus_actions(click: 'games#ready') }

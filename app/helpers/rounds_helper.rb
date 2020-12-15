@@ -1,4 +1,4 @@
-module GamesHelper
+module RoundsHelper
   def shifted_players_on_current_player(current_player, players)
     return [] unless current_player
 

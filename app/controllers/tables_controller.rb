@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
-require 'securerandom'
-
 class TablesController < ApplicationController
   before_action :set_table, only: [:show]
 
   def index; end
 
   def show
+    # TODO query in SQL if table has pending games instead
+    if @table.players.count > 3 || @table.rounds.any? { |r| !r.game.game_over }
+      redirect_to :root, table, notice: 'Sorry. Table is full or a game has already started. Try another one.'
+    end
+
     join_player
   end
 

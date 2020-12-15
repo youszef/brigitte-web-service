@@ -1,6 +1,6 @@
-require 'brigitte'
+# frozen_string_literal: true
 
-class GamesController < ApplicationController
+class RoundsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:show]
   # this should normally not be skipped as this is a call made by fetch.
   # rails only checks for xhr hence skipping verification for token
@@ -23,13 +23,13 @@ class GamesController < ApplicationController
     @player.swap(hand_card, visible_table_card)
     active_player_index = @game.active_players.index(Current.player)
 
-    BrigitteGame.transaction do
-      BrigitteGame.lock('FOR UPDATE')
-                  .where(id: @brigitte_game.id)
+    Round.transaction do
+      Round.lock('FOR UPDATE')
+                  .where(id: @round.id)
                   .update_all("game = jsonb_set(game, '{active_players, #{active_player_index}}', '#{@player.to_h.to_json}'::jsonb, false)")
     end
 
-    GameChannel.broadcast_to(@brigitte_game, {})
+    RoundChannel.broadcast_to(@round, {})
 
     respond_to do |format|
       format.js { render :show, locals: { refresh_all: true } }
@@ -43,7 +43,7 @@ class GamesController < ApplicationController
     @game.play
     save_game
 
-    GameChannel.broadcast_to(@brigitte_game, {})
+    RoundChannel.broadcast_to(@round, {})
 
     respond_to do |format|
       format.js { render :show, locals: { refresh_all: true } }
@@ -59,8 +59,8 @@ class GamesController < ApplicationController
     save_game
 
     if success
-      GameChannel.broadcast_to(
-        @brigitte_game,
+      RoundChannel.broadcast_to(
+        @round,
         { thrown_card: { image_path: ActionController::Base.helpers.image_path("cards/#{thrown_cards.last}.svg") } }
       )
     end
@@ -74,7 +74,7 @@ class GamesController < ApplicationController
     @game.take_cards_from_pile(@player)
     save_game
 
-    GameChannel.broadcast_to(@brigitte_game, {})
+    RoundChannel.broadcast_to(@round, {})
 
     respond_to do |format|
       format.js { render :show, locals: { refresh_all: true } }
@@ -85,7 +85,7 @@ class GamesController < ApplicationController
     @game.take_blind_card(@player, params[:blind_card_index].to_i)
     save_game
 
-    GameChannel.broadcast_to(@brigitte_game, {})
+    RoundChannel.broadcast_to(@round, {})
 
     respond_to do |format|
       format.js { render :show, locals: { refresh_all: true } }
@@ -94,21 +94,23 @@ class GamesController < ApplicationController
 
   def create
     table = Table.find(params[:table_id])
-    Current.player.id == table.players.first
+    if Current.player.id != table.players.first['id']
+      redirect_to :show, table, alert: "Only Gamemaster #{table.players.first['name']} can start the game."
+    end
 
     @game = Brigitte::Game.new.start_new_game(table.players, player_id_key: 'id', player_name_key: 'name')
-    brigitte_game = table.brigitte_games.create(game: @game.to_h)
+    round = table.rounds.create(game: @game)
 
-    TableChannel.broadcast_to(table, game_path: table_game_path(table, brigitte_game))
+    TableChannel.broadcast_to(table, round_path: table_round_path(table, round))
 
-    redirect_to table_game_path table, brigitte_game
+    redirect_to table_round_path table, round
   end
 
   private
 
   def set_game
-    @brigitte_game = BrigitteGame.find(params[:id])
-    @game = @brigitte_game.game_object
+    @round = Round.find(params[:id])
+    @game = @round.game
   end
 
   def set_player
@@ -116,6 +118,6 @@ class GamesController < ApplicationController
   end
 
   def save_game
-    @brigitte_game.update(game: @game.to_h)
+    @round.update(game: @game.to_h)
   end
 end

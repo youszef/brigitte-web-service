@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   resources :tables, only: %i[show index create] do
-    resources :games, only: %i[show create] do
+    resources :rounds, only: %i[show create] do
       member do
         patch :swap_cards
         patch :ready
