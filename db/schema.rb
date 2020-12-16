@@ -19,11 +19,15 @@ ActiveRecord::Schema.define(version: 2020_11_06_133129) do
   create_table "rounds", force: :cascade do |t|
     t.uuid "table_id"
     t.jsonb "game"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["table_id"], name: "index_rounds_on_table_id"
   end
 
   create_table "tables", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "players", default: []
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end

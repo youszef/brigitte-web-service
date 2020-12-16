@@ -105,10 +105,7 @@ class RoundsController < ApplicationController
 
     TableChannel.broadcast_to(table, round_path: table_round_path(table, round))
 
-    format.js
-
     respond_to do |format|
-      format.html { redirect_to table_round_path table, round }
       format.js { redirect_to table_round_path table, round }
     end
   end

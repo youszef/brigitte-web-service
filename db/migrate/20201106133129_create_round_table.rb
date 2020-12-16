@@ -3,6 +3,8 @@ class CreateRoundTable < ActiveRecord::Migration[6.0]
     create_table :rounds do |t|
       t.belongs_to :table, type: :uuid
       t.jsonb :game
+
+      t.timestamps
     end
   end
 end

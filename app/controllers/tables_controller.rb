@@ -5,7 +5,12 @@ class TablesController < ApplicationController
 
   def index; end
 
-  def show; end
+  def show
+    return unless @table.rounds.last
+    return if @table.rounds.last.game.game_over
+
+    redirect_to :root, notice: "Sorry. You're too late. Game has already been started. Try another one."
+  end
 
   def join
     # TODO query in SQL if table has pending games instead

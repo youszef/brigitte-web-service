@@ -4,6 +4,8 @@ class CreateTablesTable < ActiveRecord::Migration[6.0]
 
     create_table :tables, id: :uuid do |t|
       t.jsonb :players, default: []
+
+      t.timestamps
     end
   end
 end

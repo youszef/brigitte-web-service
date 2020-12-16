@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
 class Table < ApplicationRecord
-  has_many :rounds
+  default_scope { order('created_at ASC') }
+
+  has_many :rounds, -> { order 'created_at ASC' }
 end
