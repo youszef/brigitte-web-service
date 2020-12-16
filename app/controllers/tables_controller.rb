@@ -10,10 +10,14 @@ class TablesController < ApplicationController
   def join
     # TODO query in SQL if table has pending games instead
     if @table.players.count > 3 || @table.rounds.any? { |r| !r.game.game_over }
-      redirect_to :root, table, notice: 'Sorry. Table is full or a game has already been started. Try another one.'
+      redirect_to :root, notice: 'Sorry. Table is full or a game has already been started. Try another one.'
+
+      return
     end
 
     join_player
+
+    redirect_to table_path(@table)
   end
 
   def create

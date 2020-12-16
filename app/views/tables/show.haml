@@ -15,6 +15,5 @@
   hidden: (@table.players.count > 3 || @table.players.pluck('id').include?(Current.player.id)),
   id: :join_table_button,
   method: :patch,
-  remote: true,
   form: { 'data-type': :json },
   data: { player: Current.player.id, disable_with: 'joining...' }

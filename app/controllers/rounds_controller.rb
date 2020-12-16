@@ -95,7 +95,9 @@ class RoundsController < ApplicationController
   def create
     table = Table.find(params[:table_id])
     if Current.player.id != table.players.first['id']
-      redirect_to :show, table, alert: "Only Gamemaster #{table.players.first['name']} can start the game."
+      redirect_to table_path(table), alert: "Only Gamemaster #{table.players.first['name']} can start the game."
+
+      return
     end
 
     @game = Brigitte::Game.new.start_new_game(table.players, player_id_key: 'id', player_name_key: 'name')
@@ -103,7 +105,12 @@ class RoundsController < ApplicationController
 
     TableChannel.broadcast_to(table, round_path: table_round_path(table, round))
 
-    redirect_to table_round_path table, round
+    format.js
+
+    respond_to do |format|
+      format.html { redirect_to table_round_path table, round }
+      format.js { redirect_to table_round_path table, round }
+    end
   end
 
   private

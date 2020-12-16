@@ -15,7 +15,13 @@ body{
 // Flash box
 .alert {
   padding: 20px;
-  background-color: #f44336;
+  background-color: red;
+  color: white;
+}
+
+.notice {
+  padding: 20px;
+  background-color: lightskyblue;
   color: white;
 }
 
