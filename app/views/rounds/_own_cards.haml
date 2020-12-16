@@ -2,7 +2,7 @@
 - if game && !game.game_over
   - own_player = game.active_players.find { |p| p == Current.player }
   .row.bottom-row.player-hand
-    = render 'games/player/hand_cards',
+    = render 'rounds/player/hand_cards',
         player: own_player,
         game: game,
         own_cards: true,

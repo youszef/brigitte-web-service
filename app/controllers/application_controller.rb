@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
   private
 
     def set_player_from_cookie
-      cookies.encrypted[:user_id] ||= SecureRandom.uuid
-      cookies.encrypted[:user_name] ||= Faker::Creature::Animal.name
+      cookies.encrypted[:id] ||= SecureRandom.uuid
+      cookies.encrypted[:name] ||= Faker::Creature::Animal.name
 
-      Current.player = Player.new(cookies.encrypted[:user_id], cookies.encrypted[:user_name])
+      Current.player = Player.new(cookies.encrypted[:id], cookies.encrypted[:name])
     end
 end

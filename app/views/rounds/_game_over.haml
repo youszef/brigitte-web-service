@@ -9,4 +9,4 @@
     - game.winners.each_with_index do |player, index|
       %li
         = "##{index+1}-#{player.name}"
-  = link_to 'Return', table_path(table), class: 'btn btn-primary'
+  = link_to 'Return', table_path(table)

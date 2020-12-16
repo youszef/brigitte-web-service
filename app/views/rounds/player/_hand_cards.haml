@@ -1,5 +1,4 @@
 - player = local_assigns.fetch(:player, nil)
-- game = local_assigns.fetch(:game, nil)
 - own_cards = local_assigns.fetch(:own_cards, false)
 - orientation = local_assigns.fetch(:orientation, nil)
 
@@ -9,5 +8,5 @@
       class: "#{(own_cards ? 'own-hand-card' : 'hand-card')} #{orientation}",
       src: image_path("cards/#{own_cards ? card : 'back' }.svg"),
       style: "--index: #{index}; --total-hand-cards: #{player.hand.count}",
-      draggable: !player.ready?.to_s,
+      draggable: (!player.ready?).to_s,
       'data-action': stimulus_actions(dragstart: 'games#registerElement', click: ('games#selectCard')) }

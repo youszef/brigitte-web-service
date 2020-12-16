@@ -1,0 +1,19 @@
+!!! 5
+%html
+  %head
+    %title
+      Brigitte
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+    .container
+      - unless flash.empty?
+        - flash.each do |type, message|
+          .flash{ class: type }
+            %span.closebtn{ onclick: "this.parentElement.style.display='none';" }
+              &times;
+            = message
+      = yield

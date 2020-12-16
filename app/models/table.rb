@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class Table < ApplicationRecord
-  has_many :brigitte_games
+  default_scope { order('created_at ASC') }
 
-  def active_game
-    brigitte_games.where(active: true).last
-  end
+  has_many :rounds, -> { order 'created_at ASC' }
 end

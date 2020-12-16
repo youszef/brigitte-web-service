@@ -11,3 +11,31 @@ body{
   width: $width;
   margin: auto;
 }
+
+// Flash box
+.alert {
+  padding: 20px;
+  background-color: red;
+  color: white;
+}
+
+.notice {
+  padding: 20px;
+  background-color: lightskyblue;
+  color: white;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}

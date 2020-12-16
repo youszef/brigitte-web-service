@@ -61,7 +61,7 @@ GEM
     bindex (0.8.1)
     bootsnap (1.4.8)
       msgpack (~> 1.0)
-    brigitte (0.1.5)
+    brigitte (0.1.6)
     builder (3.2.4)
     byebug (11.1.3)
     capybara (3.33.0)

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GamesControllerTest < ActionDispatch::IntegrationTest
+class RoundsControllerTest < ActionDispatch::IntegrationTest
   test "should get show" do
     get games_show_url
     assert_response :success

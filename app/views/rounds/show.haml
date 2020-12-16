@@ -1,0 +1,7 @@
+%div{'data-controller': 'games'}
+  #game-over
+    = render 'rounds/game_over', game: @game, table: @round.table
+  #cards-on-table
+    = render 'rounds/cards_on_table', game: @game
+  #own-cards
+    = render 'rounds/own_cards', game: @game
