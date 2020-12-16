@@ -82,12 +82,12 @@
 .name.vertical.left span{
   margin: 0 10px;
   writing-mode: vertical-lr;
+  transform: rotate(180deg);
 }
 
 .name.vertical.right span{
   margin: 0 10px;
   writing-mode: vertical-lr;
-  transform: rotate(180deg);
 }
 
 .row-actions {

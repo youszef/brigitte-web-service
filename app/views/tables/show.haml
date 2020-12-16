@@ -6,8 +6,15 @@
 
 = button_to 'Start Game', table_rounds_path(@table),
   id: :start_game_button,
-  class: 'btn btn-primary',
   remote: true,
   form: { 'data-type': :json },
   data: { player: Current.player.id, disable_with: 'starting...' },
-  hidden: @table.players&.first['id'] != Current.player.id
+  hidden: @table.players.first['id'] != Current.player.id
+
+= button_to 'Join Table', join_table_path(@table),
+  hidden: (@table.players.count > 3 || @table.players.pluck('id').include?(Current.player.id)),
+  id: :join_table_button,
+  method: :patch,
+  remote: true,
+  form: { 'data-type': :json },
+  data: { player: Current.player.id, disable_with: 'joining...' }

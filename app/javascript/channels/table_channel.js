@@ -24,11 +24,14 @@ consumer.subscriptions.create({ channel: "TableChannel", id: tableId }, {
 function updatePlayers(players, gamemaster) {
   if (!players) return;
 
-  let listItems = players.map(player => `<li>${player.name} ${player.id === gamemaster.id ? 'Gamemaster' : ''}</li>`);
+  let listItems = players.map(player => `<li>${player.name} ${player.id === gamemaster.id ? '(Gamemaster)' : ''}</li>`);
   document.getElementById('players').innerHTML = listItems.join('');
 
-  let btn = document.getElementById('start_game_button')
-  if(btn.dataset.player === gamemaster.id) btn.hidden = false;
+  let startGameButton = document.getElementById('start_game_button')
+  startGameButton.hidden = startGameButton.dataset.player !== gamemaster.id;
+
+  let joinTableButton = document.getElementById('join_table_button')
+  joinTableButton.hidden = (players.count > 3 || players.map( p => p.id).includes(startGameButton.dataset.player));
 }
 
 function goToRound(path) {

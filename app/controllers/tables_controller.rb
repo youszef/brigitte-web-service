@@ -1,21 +1,26 @@
 # frozen_string_literal: true
 
 class TablesController < ApplicationController
-  before_action :set_table, only: [:show]
+  before_action :set_table, only: [:show, :join]
 
   def index; end
 
-  def show
+  def show; end
+
+  def join
     # TODO query in SQL if table has pending games instead
     if @table.players.count > 3 || @table.rounds.any? { |r| !r.game.game_over }
-      redirect_to :root, table, notice: 'Sorry. Table is full or a game has already started. Try another one.'
+      redirect_to :root, table, notice: 'Sorry. Table is full or a game has already been started. Try another one.'
     end
 
     join_player
   end
 
   def create
-    redirect_to table_path(Table.create)
+    @table = Table.create
+    join_player
+
+    redirect_to table_path(@table)
   end
 
   private
