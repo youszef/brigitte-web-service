@@ -9,8 +9,8 @@ class TableChannel < ApplicationCable::Channel
     @table = Table.find_by_id(params[:id])
 
     return unless @table
-    return remove_player_from_table if @table.rounds.empty?
-    return remove_player_from_table if @table.rounds.last.game.game_over
+    # return remove_player_from_table if @table.rounds.empty?
+    # return remove_player_from_table if @table.rounds.last.game.game_over
 
     unless @table.rounds.last.players.pluck('id').include?(current_user)
       remove_player_from_table
