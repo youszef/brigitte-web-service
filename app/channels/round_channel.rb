@@ -8,7 +8,6 @@ class RoundChannel < ApplicationCable::Channel
   def unsubscribed
     @round = Round.find_by_id(params[:id])
     return unless @round
-    return unless @round.game.players.pluck(:id).include?(current_user)
 
     # TODO put this transaction in lock
     @round.table.players.delete_if { |player| player['id'] == current_user }
